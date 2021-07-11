@@ -5,27 +5,23 @@ library(rpart)
 library(rpart.plot)
 library(caret)
 
-wine <- read_csv2("wine.csv") #incarcarea setulu de date
-
+wine <- read_csv2("wine.csv") #dataset upload
 wine %>% ggplot(aes(quality)) + geom_density()
 
 set.seed(123)
 wine_split <- initial_split(wine, prop=0.7)
 wine_train <- training(wine_split)
 wine_test <- testing(wine_split)
-
 m1 <- rpart(
   formula = quality ~ .,
   data = wine_train,
   method = "anova"
 )
+m1 # resulted tree in test mode
 
-m1 # afisare arbore rezultat in mod test
-
-rpart.plot(m1) #afisare grafica arbore
+rpart.plot(m1) #tree graphic representation
 plotcp(m1)
-m1$cptable #afisarea parametrilor alpha
-
+m1$cptable #alpha parameters
 
 m2 <- rpart(
   formula = quality ~ .,
@@ -87,7 +83,7 @@ optimal_tree
 rpart.plot(optimal_tree)
 
 
-#BAGGING
+#BAGGING model
 library(ipred)
 set.seed(123)
 
